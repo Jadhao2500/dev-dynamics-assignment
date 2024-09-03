@@ -17,6 +17,17 @@ type labels = string[];
 
 type dataSets2 = { label: string, data: number[], backgroundColor: string[], borderColor: string[], borderWidth: number }[]
 
+const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        title: {
+            display: true,
+            text: "Total Activities"
+        }
+    }
+}
+
 const TotalActivityChart = (props: props) => {
     const { activityData, color } = props;
     const { labels, dataSets, dataSets2, labels2 }: { labels: labels, dataSets: dataSets, dataSets2: dataSets2, labels2: labels } = useMemo(() => {
@@ -66,7 +77,7 @@ const TotalActivityChart = (props: props) => {
         dataSets2,
         labels2
     })
-    return <div className="chart-card">
+    return <div className="chart_card">
         {/* <Bar
             data={{
                 labels: labels,
@@ -80,6 +91,7 @@ const TotalActivityChart = (props: props) => {
             }}
         /> */}
         <Bar
+            options={options}
             data={{
                 labels: labels2,
                 datasets: dataSets2
