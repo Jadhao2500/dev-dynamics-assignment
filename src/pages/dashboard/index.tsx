@@ -6,14 +6,17 @@ import TotalActivityChart from "@/components/TotalActivityChart";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, LineElement, Tooltip, Legend } from "chart.js";
 import DayWiseActivity from "@/components/DayWiseActivity";
 import { DashboardProvider } from "./dashboardContext";
-import { useReducer } from "react";
-import { dashboardReducer, initialState } from "./dashboardReducer";
+import { useEffect, useReducer } from "react";
+import { ACTION_TYPES, dashboardReducer, initialState } from "./dashboardReducer";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, LineElement, Tooltip, Legend)
 
 const AnalyticalDashboard = () => {
     const [state, dispatch] = useReducer(dashboardReducer, initialState)
     console.log({ state })
+    useEffect(()=>{
+        dispatch({type:ACTION_TYPES.SELECTED_DATE,value:"2024-05-06"})
+    },[])
     return (
         <DashboardProvider value={{ state, dispatch }}>
             <Grid container spacing={2}>
