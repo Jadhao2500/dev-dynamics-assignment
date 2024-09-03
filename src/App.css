@@ -1,0 +1,6 @@
+.chart-card {
+  min-height: 30vh;
+  padding: 0.5rem;
+  border: 1px solid #ececec;
+  border-radius: 0.5rem;
+}
