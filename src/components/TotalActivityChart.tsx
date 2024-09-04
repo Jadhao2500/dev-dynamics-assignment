@@ -36,15 +36,15 @@ const options = {
 const TotalActivityChart = () => {
     const { state } = useDashboardContext();
 
-    const { dataSets2, labels2 }: { dataSets2: dataSets, labels2: labels } = useMemo(() => {
-        let dataSets2: dataSets = [];
-        let labels2: string[] = []
+    const { dataSets, labels }: { dataSets: dataSets, labels: labels } = useMemo(() => {
+        let dataSets: dataSets = [];
+        let labels: string[] = []
         state.totalActivitiesAnalytics.forEach((el: any) => {
             let set = {
                 label: el.name,
                 data: el.totalActivity.map((el: activity) => {
-                    if (!labels2.includes(el.name)) {
-                        labels2.push(el.name)
+                    if (!labels.includes(el.name)) {
+                        labels.push(el.name)
                     }
                     return Number(el.value)
                 }),
@@ -52,17 +52,17 @@ const TotalActivityChart = () => {
                 borderColor: state.color,
                 borderWidth: 1
             }
-            dataSets2.push(set)
+            dataSets.push(set)
         })
 
         return {
-            dataSets2, labels2
+            dataSets, labels
         }
     }, [state.totalActivitiesAnalytics])
 
     console.log({
-        dataSets2,
-        labels2
+        dataSets,
+        labels
     })
     return <div className="chart_card">
         {/* <Bar
@@ -80,8 +80,8 @@ const TotalActivityChart = () => {
         <Bar
             options={options}
             data={{
-                labels: labels2,
-                datasets: dataSets2
+                labels: labels,
+                datasets: dataSets
             }}
         />
     </div>
