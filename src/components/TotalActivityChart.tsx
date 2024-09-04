@@ -38,7 +38,7 @@ const TotalActivityChart = () => {
 
     const { dataSets, labels }: { dataSets: dataSets, labels: labels } = useMemo(() => {
         let dataSets: dataSets = [];
-        let labels: string[] = []
+        let labels: labels = []
         state.totalActivitiesAnalytics.forEach((el: any) => {
             let set = {
                 label: el.name,
