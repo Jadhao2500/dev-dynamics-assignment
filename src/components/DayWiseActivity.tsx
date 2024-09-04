@@ -68,8 +68,6 @@ const DayWiseActivityChart = () => {
         }
     }, [state.dayWiseActivitiesAnalytics])
 
-    console.log({ labels, dataSets, day: state?.dayWiseActivitiesAnalytics, currentDate: state.currentSelectedDate })
-
     return <div className="chart_card">
         <div className="flex-between-center">
             <div>
@@ -78,6 +76,7 @@ const DayWiseActivityChart = () => {
                 </span>
             </div>
             <div className="flex-end-center g-10">
+                <EmployeeSelect type={ACTION_TYPES.DAY_WISE_ANALYTICS_EMPLOYEE} value={state?.dayWiseAnalyticsEmployee} />
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="selected-date">Selected Date</InputLabel>
                     <Select
@@ -96,7 +95,6 @@ const DayWiseActivityChart = () => {
                         }
                     </Select>
                 </FormControl>
-                <EmployeeSelect type={ACTION_TYPES.DAY_WISE_ANALYTICS_EMPLOYEE} value={state?.dayWiseAnalyticsEmployee} />
             </div>
         </div>
         <div className="chart_container">

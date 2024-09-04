@@ -52,10 +52,6 @@ const TotalEmployeeWiseActivityChart = () => {
         }
     }, [state.totalActivitiesAnalytics])
 
-    console.log({
-        dataSets,
-        labels,
-    })
     return <div className="chart_card">
         <div className="flex-between-center">
             <div>

@@ -42,7 +42,7 @@ const TotalActivityChart = () => {
                 }
             })
         })
-        console.log({ activityWiseData })
+
         let labels: labels = Object.keys(activityWiseData);
         let set = {
             label: "Total Activities",
@@ -57,10 +57,6 @@ const TotalActivityChart = () => {
         }
     }, [state])
 
-    console.log({
-        dataSets,
-        labels,
-    })
     return <div className="chart_card">
         <div className="flex-between-center">
             <div>
