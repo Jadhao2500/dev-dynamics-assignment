@@ -1,6 +1,8 @@
 import { useDashboardContext } from "@/pages/dashboard/dashboardContext";
+import { ACTION_TYPES } from "@/pages/dashboard/dashboardReducer";
 import { memo, useMemo } from "react";
-import { Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import EmployeeSelect from "./EmployeeSelect";
 
 type labels = string[];
 
@@ -22,40 +24,33 @@ const options = {
     }
 }
 
-const TotalActivityChart = () => {
+const TotalEmployeeWiseActivityChart = () => {
     const { state } = useDashboardContext();
 
 
     const { dataSets, labels }: { dataSets: dataSets, labels: labels } = useMemo(() => {
         let dataSets: dataSets = [];
-
-        let activityWiseData: {
-            [key: string]: number
-        } = {}
-
-        state.analyticalData.forEach((el: any) => {
-            el?.totalActivity?.forEach((item: activity) => {
-                if (!activityWiseData[item.name]) {
-                    activityWiseData[item.name] = Number(item.value)
-                } else {
-                    activityWiseData[item.name] += Number(item.value)
-                }
-            })
+        let labels: labels = []
+        state.totalActivitiesAnalytics.forEach((el: any) => {
+            let set = {
+                label: el.name,
+                data: el.totalActivity.map((el: activity) => {
+                    if (!labels.includes(el.name)) {
+                        labels.push(el.name)
+                    }
+                    return Number(el.value)
+                }),
+                backgroundColor: state.color?.map((el: string) => `${el}1A`) ?? [""] ?? [""],
+                borderColor: state.color,
+                borderWidth: 1
+            }
+            dataSets.push(set)
         })
-        console.log({ activityWiseData })
-        let labels: labels = Object.keys(activityWiseData);
-        let set = {
-            label: "Total Activities",
-            data: Object.values(activityWiseData),
-            backgroundColor: state.color?.map((el: string) => `${el}1A`) ?? [""] ?? [""],
-            borderColor: state.color,
-            borderWidth: 1
-        }
-        dataSets.push(set)
+
         return {
             dataSets, labels
         }
-    }, [state])
+    }, [state.totalActivitiesAnalytics])
 
     console.log({
         dataSets,
@@ -65,12 +60,15 @@ const TotalActivityChart = () => {
         <div className="flex-between-center">
             <div>
                 <span className="title">
-                    Total Activities
+                    Total Activities (Employee Wise)
                 </span>
+            </div>
+            <div className="flex-end-center g-10">
+                <EmployeeSelect value={state?.totalAnalyticsEmployee} type={ACTION_TYPES.TOTAL_ANALYTICS_EMPOYEE} />
             </div>
         </div>
         <div className="chart_container">
-            <Doughnut
+            <Bar
                 options={options}
                 data={{
                     labels: labels,
@@ -81,4 +79,4 @@ const TotalActivityChart = () => {
     </div>
 }
 
-export default memo(TotalActivityChart)
+export default memo(TotalEmployeeWiseActivityChart)
