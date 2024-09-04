@@ -2,6 +2,7 @@ import { VALID_DATA_TYPES } from "@/constant";
 import { useDashboardContext } from "@/pages/dashboard/dashboardContext";
 import { util } from "@/utils/utils";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { memo } from "react";
 
 type props = {
     type: string;
@@ -40,4 +41,4 @@ const EmployeeSelect = (props: props) => {
     )
 
 }
-export default EmployeeSelect;
+export default memo(EmployeeSelect);
