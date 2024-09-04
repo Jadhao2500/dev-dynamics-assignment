@@ -1,17 +1,8 @@
 import { useDashboardContext } from "@/pages/dashboard/dashboardContext";
+import { ACTION_TYPES } from "@/pages/dashboard/dashboardReducer";
 import { memo, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
-
-// type props = {
-//     activityData: {
-//         name: string;
-//         totalActivity: {
-//             name: string;
-//             value: string
-//         }[]
-//     }[],
-//     color: string[],
-// }
+import EmployeeSelect from "./EmployeeSelect";
 
 type labels = string[];
 
@@ -35,6 +26,7 @@ const options = {
 
 const TotalActivityChart = () => {
     const { state } = useDashboardContext();
+
 
     const { dataSets, labels }: { dataSets: dataSets, labels: labels } = useMemo(() => {
         let dataSets: dataSets = [];
@@ -62,28 +54,28 @@ const TotalActivityChart = () => {
 
     console.log({
         dataSets,
-        labels
+        labels,
     })
     return <div className="chart_card">
-        {/* <Bar
-            data={{
-                labels: labels,
-                datasets: Object.entries(dataSets).map(([key, value]) => ({
-                    label: key,
-                    data: value,
-                    backgroundColor: color?.map((el) => `${el}1A`),
-                    borderColor: color,
-                    borderWidth: 1
-                }))
-            }}
-        /> */}
-        <Bar
-            options={options}
-            data={{
-                labels: labels,
-                datasets: dataSets
-            }}
-        />
+        <div className="flex-between-center">
+            <div>
+                <span className="title">
+                    Total Activities
+                </span>
+            </div>
+            <div className="flex-end-center g-10">
+                <EmployeeSelect value={state?.totalAnalyticsEmployee} type={ACTION_TYPES.TOTAL_ANALYTICS_EMPOYEE} />
+            </div>
+        </div>
+        <div className="chart_container">
+            <Bar
+                options={options}
+                data={{
+                    labels: labels,
+                    datasets: dataSets
+                }}
+            />
+        </div>
     </div>
 }
 

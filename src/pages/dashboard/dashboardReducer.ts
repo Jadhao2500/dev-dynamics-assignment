@@ -32,6 +32,7 @@ type initialState = {
   dateOptions: { value: string; label: string }[];
   dayWiseAnalyticsEmployee: string;
   employees: { value: string; label: string }[];
+  totalAnalyticsEmployee: string;
 };
 export const initialState: initialState = {
   analyticalData: sampleData.data.AuthorWorklog.rows,
@@ -48,11 +49,13 @@ export const initialState: initialState = {
     label: el.name,
     value: el.name,
   })),
+  totalAnalyticsEmployee: "",
 };
 
 export const ACTION_TYPES = {
   SELECTED_DATE: "SELECTED_DATE",
   DAY_WISE_ANALYTICS_EMPLOYEE: "DAY_WISE_ANALYTICS_EMPLOYEE",
+  TOTAL_ANALYTICS_EMPOYEE: "TOTAL_ANALYTICS_EMPOYEE",
 };
 
 export function dashboardReducer(state: any, action: any) {
@@ -60,9 +63,9 @@ export function dashboardReducer(state: any, action: any) {
     case ACTION_TYPES.SELECTED_DATE: {
       let dayWiseData = filterDaywiseDataByDate(
         action.value,
-        state.analyticalData
+        state.analyticalData,
+        state.dayWiseAnalyticsEmployee
       );
-      console.log({ dayWiseData });
       return {
         ...state,
         currentSelectedDate: action.value,
@@ -70,15 +73,23 @@ export function dashboardReducer(state: any, action: any) {
       };
     }
     case ACTION_TYPES.DAY_WISE_ANALYTICS_EMPLOYEE: {
-      let dayWiseData = filterDayWiseDataByEmployee(
-        action.value,
-        state.analyticalData
+      let dayWiseData = filterDaywiseDataByDate(
+        state.currentSelectedDate,
+        state.analyticalData,
+        action.value
       );
-      console.log({ dayWiseData });
       return {
         ...state,
         dayWiseAnalyticsEmployee: action.value,
         dayWiseActivitiesAnalytics: dayWiseData,
+      };
+    }
+    case ACTION_TYPES.TOTAL_ANALYTICS_EMPOYEE: {
+      let filterData = filterDataByEmployee(action.value, state.analyticalData);
+      return {
+        ...state,
+        totalAnalyticsEmployee: action.value,
+        totalActivitiesAnalytics: filterData,
       };
     }
     default: {
@@ -89,17 +100,30 @@ export function dashboardReducer(state: any, action: any) {
   }
 }
 
-const filterDaywiseDataByDate = (date: string, data: any[]) => {
-  let filterActivities = data.map((el) => {
-    const currentData = el?.dayWiseActivity.filter(
-      (el: { date: string }) => el.date === date
-    );
-    return { ...el, dayWiseActivity: currentData };
-  });
+const filterDaywiseDataByDate = (date: string, data: any[], name: string) => {
+  let filterActivities = [];
+
+  if (name.length) {
+    let filterByEmpName = filterDataByEmployee(name, data);
+    filterActivities = filterByEmpName.map((el) => {
+      const currentData = el?.dayWiseActivity.filter(
+        (el: { date: string }) => el.date === date
+      );
+      return { ...el, dayWiseActivity: currentData };
+    });
+  } else {
+    filterActivities = data.map((el) => {
+      const currentData = el?.dayWiseActivity.filter(
+        (el: { date: string }) => el.date === date
+      );
+      return { ...el, dayWiseActivity: currentData };
+    });
+  }
+
   return filterActivities;
 };
 
-const filterDayWiseDataByEmployee = (name: string, data: any[]) => {
+const filterDataByEmployee = (name: string, data: any[]) => {
   let filterActivities = data.filter((el) => el?.name === name);
-  return filterActivities;
+  return name.length ? filterActivities : data;
 };

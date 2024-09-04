@@ -5,6 +5,7 @@ import { util } from "@/utils/utils";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { memo, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
+import EmployeeSelect from "./EmployeeSelect";
 
 type dayWiseActivity = {
     name: string;
@@ -70,63 +71,43 @@ const DayWiseActivityChart = () => {
     console.log({ labels, dataSets, day: state?.dayWiseActivitiesAnalytics, currentDate: state.currentSelectedDate })
 
     return <div className="chart_card">
-        {/* <Bar
-            data={{
-                labels: labels,
-                datasets: Object.entries(dataSets).map(([key, value]) => ({
-                    label: key,
-                    data: value,
-                    backgroundColor: color?.map((el) => `${el}1A`),
-                    borderColor: color,
-                    borderWidth: 1
-                }))
-            }}
-        /> */}
-        <div className="flex-end-center g-10">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="selected-date">Selected Date</InputLabel>
-                <Select
-                    labelId="selected-date"
-                    value={state.currentSelectedDate}
-                    label="Selected Date"
-                    onChange={(e) => {
-                        handleSelectValueChange(ACTION_TYPES.SELECTED_DATE, e)
-                    }}
-                    sx={{ width: "160px" }}
-                >
-                    {
-                        util.validateDataType(state?.dateOptions, VALID_DATA_TYPES.ARRAY) && state.dateOptions.map((el: any) => (
-                            <MenuItem value={el.value} key={el.value}>{el.label}</MenuItem>
-                        ))
-                    }
-                </Select>
-            </FormControl>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="selected-employee">Select Employee</InputLabel>
-                <Select
-                    labelId="selected-employee"
-                    value={state?.dayWiseAnalyticsEmployee}
-                    label="Select Employee"
-                    onChange={(e) => {
-                        handleSelectValueChange(ACTION_TYPES.DAY_WISE_ANALYTICS_EMPLOYEE, e)
-                    }}
-                    sx={{ width: "160px" }}
-                >
-                    {
-                        util.validateDataType(state?.employees, VALID_DATA_TYPES.ARRAY) && state.employees.map((el: any) => (
-                            <MenuItem value={el.value} key={el.value}>{el.label}</MenuItem>
-                        ))
-                    }
-                </Select>
-            </FormControl>
+        <div className="flex-between-center">
+            <div>
+                <span className="title">
+                    Day Wise Activities
+                </span>
+            </div>
+            <div className="flex-end-center g-10">
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="selected-date">Selected Date</InputLabel>
+                    <Select
+                        labelId="selected-date"
+                        value={state.currentSelectedDate}
+                        label="Selected Date"
+                        onChange={(e) => {
+                            handleSelectValueChange(ACTION_TYPES.SELECTED_DATE, e)
+                        }}
+                        sx={{ width: "160px" }}
+                    >
+                        {
+                            util.validateDataType(state?.dateOptions, VALID_DATA_TYPES.ARRAY) && state.dateOptions.map((el: any) => (
+                                <MenuItem value={el.value} key={el.value}>{el.label}</MenuItem>
+                            ))
+                        }
+                    </Select>
+                </FormControl>
+                <EmployeeSelect type={ACTION_TYPES.DAY_WISE_ANALYTICS_EMPLOYEE} value={state?.dayWiseAnalyticsEmployee} />
+            </div>
         </div>
-        <Bar
-            options={options}
-            data={{
-                labels: labels,
-                datasets: dataSets
-            }}
-        />
+        <div className="chart_container">
+            <Bar
+                options={options}
+                data={{
+                    labels: labels,
+                    datasets: dataSets
+                }}
+            />
+        </div>
     </div>
 }
 

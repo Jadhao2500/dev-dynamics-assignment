@@ -51,14 +51,21 @@ const ActiveDaysChart = () => {
         return { labels, dataSets }
     }, [state.activeDaysAnalytics])
 
-    return <div className={`chart_card`}>
-        <Pie
-            options={options}
-            data={{
-                labels,
-                datasets: dataSets
-            }}
-        />
+    return <div className={`chart_card `}>
+        <div>
+            <span className="title">
+                Employee Active Days
+            </span>
+        </div>
+        <div className="chart_container">
+            <Pie
+                options={options}
+                data={{
+                    labels,
+                    datasets: dataSets
+                }}
+            />
+        </div>
     </div>
 }
 
