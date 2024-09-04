@@ -1,6 +1,6 @@
 .app_container {
   height: 100vh;
-  width: 100%;
+  /* width: 100vw; */
   background-color: #fafbfc;
   padding: 1rem;
 }
@@ -9,6 +9,19 @@
   padding: 0.5rem;
   border: 1px solid #ececec;
   border-radius: 0.5rem;
-  height: 30rem;
+  /* height: 30rem; */
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chart_container {
+  height: 30rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1rem;
 }
